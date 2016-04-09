@@ -1,11 +1,14 @@
 {
   "name": "eventful",
   "version": "0.0.0",
+  "description": "Salesforce Event Management App",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.13.4",
     "nforce": "^1.4.0"
   },
   "scripts": {
+    "start": "gulp && node server.js",
     "test": "gulp test"
   },
   "devDependencies": {
@@ -25,7 +28,6 @@
     "gulp-uglify": "~1.4.1",
     "gulp-useref": "~3.0.3",
     "gulp-util": "~3.0.6",
-    "gulp-ng-annotate": "~1.1.0",
     "gulp-replace": "~0.5.4",
     "gulp-rename": "~1.2.2",
     "gulp-rev": "~6.0.1",
@@ -35,14 +37,18 @@
     "gulp-protractor": "~2.1.0",
     "gulp-sourcemaps": "~1.6.0",
     "gulp-sass": "~2.0.4",
-    "gulp-angular-filesort": "~1.1.1",
+    "webpack-stream": "~2.1.1",
+    "ng-annotate-loader": "0.0.10",
+    "eslint-loader": "~1.1.0",
+    "babel-core": "~6.7.4",
+    "babel-loader": "~6.2.4",
+    "babel-preset-es2015": "~6.6.0",
     "main-bower-files": "~2.9.0",
     "wiredep": "~2.2.2",
     "karma": "~0.13.10",
     "karma-jasmine": "~0.3.6",
     "karma-phantomjs-launcher": "~0.2.1",
     "phantomjs": "~1.9.18",
-    "karma-angular-filesort": "~1.0.0",
     "karma-phantomjs-shim": "~1.2.0",
     "karma-coverage": "~0.5.2",
     "karma-ng-html2js-preprocessor": "~0.2.0",
@@ -55,9 +61,5 @@
   },
   "engines": {
     "node": ">=0.10.0"
-  },
-  "description": "Salesforce Event Management App",
-  "main": "server.js",
-  "author": "John Cui <johnrcui@gmail.com>",
-  "license": "ISC"
+  }
 }

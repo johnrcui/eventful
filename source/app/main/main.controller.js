@@ -1,39 +1,32 @@
-(function() {
-  'use strict';
+export class MainController {
+  constructor ($timeout, webDevTec, toastr) {
+    'ngInject';
 
-  angular
-    .module('eventful')
-    .controller('MainController', MainController);
+    this.awesomeThings = [];
+    this.classAnimation = '';
+    this.creationDate = 1460183936727;
+    this.toastr = toastr;
 
-  /** @ngInject */
-  function MainController($timeout, webDevTec, toastr) {
-    var vm = this;
-
-    vm.awesomeThings = [];
-    vm.classAnimation = '';
-    vm.creationDate = 1460178635068;
-    vm.showToastr = showToastr;
-
-    activate();
-
-    function activate() {
-      getWebDevTec();
-      $timeout(function() {
-        vm.classAnimation = 'rubberBand';
-      }, 4000);
-    }
-
-    function showToastr() {
-      toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-      vm.classAnimation = '';
-    }
-
-    function getWebDevTec() {
-      vm.awesomeThings = webDevTec.getTec();
-
-      angular.forEach(vm.awesomeThings, function(awesomeThing) {
-        awesomeThing.rank = Math.random();
-      });
-    }
+    this.activate($timeout, webDevTec);
   }
-})();
+
+  activate($timeout, webDevTec) {
+    this.getWebDevTec(webDevTec);
+    $timeout(() => {
+      this.classAnimation = 'rubberBand';
+    }, 4000);
+  }
+
+  getWebDevTec(webDevTec) {
+    this.awesomeThings = webDevTec.getTec();
+
+    angular.forEach(this.awesomeThings, (awesomeThing) => {
+      awesomeThing.rank = Math.random();
+    });
+  }
+
+  showToastr() {
+    this.toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
+    this.classAnimation = '';
+  }
+}

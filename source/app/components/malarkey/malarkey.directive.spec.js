@@ -1,45 +1,41 @@
-(function() {
-  'use strict';
+/**
+ * @todo Complete the test
+ * This example is not perfect.
+ * The `link` function is not tested.
+ * (malarkey usage, addClass, $watch, $destroy)
+ */
+describe('directive malarkey', function() {
+  let vm;
+  let element;
 
-  /**
-   * @todo Complete the test
-   * This example is not perfect.
-   * The `link` function is not tested.
-   * (malarkey usage, addClass, $watch, $destroy)
-   */
-  describe('directive malarkey', function() {
-    var $log;
-    var vm;
-    var el;
+  beforeEach(angular.mock.module('eventful'));
 
-    beforeEach(module('eventful'));
-    beforeEach(inject(function($compile, $rootScope, githubContributor, $q, _$log_) {
-      $log = _$log_;
-
-      spyOn(githubContributor, 'getContributors').and.callFake(function() {
-        return $q.when([{}, {}, {}, {}, {}, {}]);
-      });
-
-      el = angular.element('<acme-malarkey extra-values="[\'Poney\', \'Monkey\']"></acme-malarkey>');
-
-      $compile(el)($rootScope.$new());
-      $rootScope.$digest();
-      vm = el.isolateScope().vm;
-    }));
-
-    it('should be compiled', function() {
-      expect(el.html()).not.toEqual(null);
+  beforeEach(inject(($compile, $rootScope, githubContributor, $q) => {
+    spyOn(githubContributor, 'getContributors').and.callFake(() => {
+      return $q.when([{}, {}, {}, {}, {}, {}]);
     });
 
-    it('should have isolate scope object with instanciate members', function() {
-      expect(vm).toEqual(jasmine.any(Object));
+    element = angular.element(`
+      <acme-malarkey extra-values="['Poney', 'Monkey']"></acme-malarkey>
+    `);
 
-      expect(vm.contributors).toEqual(jasmine.any(Array));
-      expect(vm.contributors.length).toEqual(6);
-    });
+    $compile(element)($rootScope.$new());
+    $rootScope.$digest();
+    vm = element.isolateScope().vm;
+  }));
 
-    it('should log a info', function() {
-      expect($log.info.logs).toEqual(jasmine.stringMatching('Activated Contributors View'));
-    });
+  it('should be compiled', () => {
+    expect(element.html()).not.toEqual(null);
   });
-})();
+
+  it('should have isolate scope object with instanciate members', () => {
+    expect(vm).toEqual(jasmine.any(Object));
+
+    expect(vm.contributors).toEqual(jasmine.any(Array));
+    expect(vm.contributors.length).toEqual(6);
+  });
+
+  it('should log a info', inject($log => {
+    expect($log.info.logs).toEqual(jasmine.stringMatching('Activated Contributors View'));
+  }));
+});

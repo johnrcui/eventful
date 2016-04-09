@@ -1,13 +1,8 @@
-(function() {
-  'use strict';
+export class WebDevTecService {
+  constructor () {
+    'ngInject';
 
-  angular
-      .module('eventful')
-      .service('webDevTec', webDevTec);
-
-  /** @ngInject */
-  function webDevTec() {
-    var data = [
+    this.data = [
       {
         'title': 'AngularJS',
         'url': 'https://angularjs.org/',
@@ -55,14 +50,17 @@
         'url': 'https://github.com/sass/node-sass',
         'description': 'Node.js binding to libsass, the C version of the popular stylesheet preprocessor, Sass.',
         'logo': 'node-sass.png'
+      },
+      {
+        'title': 'ES6 (Babel formerly 6to5)',
+        'url': 'https://babeljs.io/',
+        'description': 'Turns ES6+ code into vanilla ES5, so you can use next generation features today.',
+        'logo': 'babel.png'
       }
     ];
-
-    this.getTec = getTec;
-
-    function getTec() {
-      return data;
-    }
   }
 
-})();
+  getTec() {
+    return this.data;
+  }
+}

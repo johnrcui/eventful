@@ -18,10 +18,7 @@ function listFiles() {
 
   var patterns = wiredep(wiredepOptions).js
     .concat([
-      path.join(conf.paths.src, '/app/**/*.module.js'),
-      path.join(conf.paths.src, '/app/**/*.js'),
-      path.join(conf.paths.src, '/**/*.spec.js'),
-      path.join(conf.paths.src, '/**/*.mock.js'),
+      path.join(conf.paths.tmp, '/serve/app/index.module.js'),
     ])
     .concat(pathSrcHtml);
 
@@ -55,17 +52,12 @@ module.exports = function(config) {
 
     logLevel: 'WARN',
 
-    frameworks: ['phantomjs-shim', 'jasmine', 'angular-filesort'],
-
-    angularFilesort: {
-      whitelist: [path.join(conf.paths.src, '/**/!(*.html|*.spec|*.mock).js')]
-    },
+    frameworks: ['phantomjs-shim', 'jasmine'],
 
     browsers : ['PhantomJS'],
 
     plugins : [
       'karma-phantomjs-launcher',
-      'karma-angular-filesort',
       'karma-phantomjs-shim',
       'karma-coverage',
       'karma-jasmine',

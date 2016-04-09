@@ -1,32 +1,25 @@
-(function() {
-  'use strict';
+export function NavbarDirective() {
+  'ngInject';
 
-  angular
-    .module('eventful')
-    .directive('acmeNavbar', acmeNavbar);
+  let directive = {
+    restrict: 'E',
+    templateUrl: 'app/components/navbar/navbar.html',
+    scope: {
+        creationDate: '='
+    },
+    controller: NavbarController,
+    controllerAs: 'vm',
+    bindToController: true
+  };
 
-  /** @ngInject */
-  function acmeNavbar() {
-    var directive = {
-      restrict: 'E',
-      templateUrl: 'app/components/navbar/navbar.html',
-      scope: {
-          creationDate: '='
-      },
-      controller: NavbarController,
-      controllerAs: 'vm',
-      bindToController: true
-    };
+  return directive;
+}
 
-    return directive;
+class NavbarController {
+  constructor (moment) {
+    'ngInject';
 
-    /** @ngInject */
-    function NavbarController(moment) {
-      var vm = this;
-
-      // "vm.creationDate" is available by directive option "bindToController: true"
-      vm.relativeDate = moment(vm.creationDate).fromNow();
-    }
+    // "this.creationDate" is available by directive option "bindToController: true"
+    this.relativeDate = moment(this.creationDate).fromNow();
   }
-
-})();
+}

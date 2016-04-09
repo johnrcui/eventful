@@ -49,9 +49,9 @@
         "extension": "scss"
       },
       "jsPreprocessor": {
-        "key": "noJsPrepro",
+        "key": "babel",
         "extension": "js",
-        "srcExtension": "js"
+        "srcExtension": "es6"
       },
       "htmlPreprocessor": {
         "key": "noHtmlPrepro",

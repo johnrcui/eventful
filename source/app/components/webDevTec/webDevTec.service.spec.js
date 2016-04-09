@@ -1,29 +1,20 @@
-(function() {
-  'use strict';
+describe('service webDevTec', () => {
+  beforeEach(angular.mock.module('eventful'));
 
-  describe('service webDevTec', function() {
-    var webDevTec;
+  it('should be registered', inject(webDevTec => {
+    expect(webDevTec).not.toEqual(null);
+  }));
 
-    beforeEach(module('eventful'));
-    beforeEach(inject(function(_webDevTec_) {
-      webDevTec = _webDevTec_;
+  describe('getTec function', () => {
+    it('should exist', inject(webDevTec => {
+      expect(webDevTec.getTec).not.toBeNull();
     }));
 
-    it('should be registered', function() {
-      expect(webDevTec).not.toEqual(null);
-    });
-
-    describe('getTec function', function() {
-      it('should exist', function() {
-        expect(webDevTec.getTec).not.toEqual(null);
-      });
-
-      it('should return array of object', function() {
-        var data = webDevTec.getTec();
-        expect(data).toEqual(jasmine.any(Array));
-        expect(data[0]).toEqual(jasmine.any(Object));
-        expect(data.length > 5).toBeTruthy();
-      });
-    });
+    it('should return array of object', inject(webDevTec => {
+      const data = webDevTec.getTec();
+      expect(data).toEqual(jasmine.any(Array));
+      expect(data[0]).toEqual(jasmine.any(Object));
+      expect(data.length > 5).toBeTruthy();
+    }));
   });
-})();
+});
