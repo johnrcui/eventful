@@ -8,7 +8,8 @@
     "nforce": "^1.4.0"
   },
   "scripts": {
-    "start": "gulp && node server.js",
+    "postinstall": "gulp",
+    "start": "node server.js",
     "test": "gulp test"
   },
   "devDependencies": {
