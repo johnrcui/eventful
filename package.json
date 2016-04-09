@@ -5,7 +5,13 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.4",
-    "nforce": "^1.4.0",
+    "nforce": "^1.4.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "gulp test"
+  },
+  "devDependencies": {
     "estraverse": "~4.1.0",
     "gulp": "~3.9.0",
     "gulp-autoprefixer": "~3.0.2",
@@ -53,12 +59,6 @@
     "uglify-save-license": "~0.4.1",
     "wrench": "~1.5.8"
   },
-  "scripts": {
-    "postinstall": "bower cache clean && bower install && gulp",
-    "start": "node server.js",
-    "test": "gulp test"
-  },
-  "devDependencies": {},
   "engines": {
     "node": ">=0.10.0"
   }
