@@ -6,13 +6,6 @@
   "dependencies": {
     "express": "^4.13.4",
     "nforce": "^1.4.0"
-  },
-  "scripts": {
-    "postinstall": "gulp",
-    "start": "node server.js",
-    "test": "gulp test"
-  },
-  "devDependencies": {
     "estraverse": "~4.1.0",
     "gulp": "~3.9.0",
     "gulp-autoprefixer": "~3.0.2",
@@ -60,6 +53,12 @@
     "uglify-save-license": "~0.4.1",
     "wrench": "~1.5.8"
   },
+  "scripts": {
+    "postinstall": "gulp",
+    "start": "node server.js",
+    "test": "gulp test"
+  },
+  "devDependencies": {},
   "engines": {
     "node": ">=0.10.0"
   }
