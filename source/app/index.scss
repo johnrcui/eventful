@@ -63,33 +63,6 @@ md-toolbar.md-default-theme {
   background-color: black;
 }
 
-section.jumbotron {
-  margin-bottom: 30px;
-  padding: 1px 30px;
-  background-color: #5aadbb;
-  text-align: center;
-
-  color: white;
-
-  h1 {
-    font-size: 3em;
-  }
-}
-
-.techs {
-  display: flex;
-  flex-flow: row wrap;
-
-  md-card {
-    width: 30%;
-
-    img.pull-right {
-      float: right;
-      width: 100px;
-    }
-  }
-}
-
 /**
  *  Do not remove the comment below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically

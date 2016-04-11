@@ -1,27 +1,90 @@
 export class MainController {
-  constructor ($timeout, webDevTec, toastr) {
+  constructor ($timeout, $http, toastr) {
     'ngInject';
 
     this.awesomeThings = [];
     this.classAnimation = '';
-    this.creationDate = 1460183936727;
+    this.loading = true;
+    this.inDetail = false;
     this.toastr = toastr;
+    this.$http = $http;
+    this.events = [];
+    this.selectedEvent = null;
+    this.attendee = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      company: ''
+    };
 
-    this.activate($timeout, webDevTec);
+    this.fetchEvents();
   }
 
-  activate($timeout, webDevTec) {
-    this.getWebDevTec(webDevTec);
-    $timeout(() => {
-      this.classAnimation = 'rubberBand';
-    }, 4000);
+  fetchEvents() {
+    this.$http({
+      method: 'GET',
+      url: '/api/events'
+    })
+    .then((response) => {
+      this.events = response.data.data;
+      this.loading = false;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
-  getWebDevTec(webDevTec) {
-    this.awesomeThings = webDevTec.getTec();
+  gotoDetail(resourceId) {
+    this.loading = true;
+    this.inDetail = true;
+    this.$http({
+      method: 'GET',
+      url: `/api/events/${resourceId}`
+    })
+    .then((response) => {
+      this.selectedEvent = response.data.data;
+      this.loading = false;
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
 
-    angular.forEach(this.awesomeThings, (awesomeThing) => {
-      awesomeThing.rank = Math.random();
+  attend() {
+    console.log(this.attendee);
+
+    this.$http({
+      method: 'POST',
+      url: `/api/attendees`,
+      data: this.attendee
+    })
+    .then((response) => {
+      var attendee = response.data;
+      var promises = [];
+
+      for(let i = 0, l = this.selectedEvent.sessions.length; i < l; i++) {
+        let session = this.selectedEvent.sessions[i];
+        promises.push(
+          this.$http({
+            method: 'POST',
+            url: `/api/attendees/${attendee.resourceId}/attend`,
+            data: {
+              sessionResourceId: session.resourceId
+            }
+          })
+        );
+      }
+
+      return Promise.all(promises);
+    })
+    .then((resolves) => {
+      this.toastr.info('Successfully registered!');
+      this.inDetail = false;
+      this.fetchEvents();
+    })
+    .catch((err) => {
+      this.toastr.info('Failed to register to event.');
     });
   }
 

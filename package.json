@@ -4,8 +4,15 @@
   "description": "Salesforce Event Management App",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "1.15.0",
+    "compression": "1.6.1",
     "express": "^4.13.4",
-    "nforce": "^1.4.0"
+    "install": "0.6.1",
+    "moment": "2.12.0",
+    "nforce": "^1.4.0",
+    "npm": "3.8.6",
+    "path": "0.12.7",
+    "underscore": "1.8.3"
   },
   "scripts": {
     "start": "node server.js",

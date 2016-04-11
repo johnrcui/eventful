@@ -1,34 +1,62 @@
 'use strict';
 
-var nforce = require('nforce');
-var express = require('express');
-var app = express();
+var express       = require('express');
+var compression   = require('compression');
 
-var org = nforce.createConnection({
-  clientId      : process.env.SF_API_CLIENT,
-  clientSecret  : process.env.SF_API_SECRET,
-  redirectUri   : '',
-  environment   : 'production',
-  mode          : 'single' // optional, 'single' or 'multi' user mode, multi default
-});
+var app           = express();
+var apiRouter     = express.Router();
 
-app.set('port', (process.env.PORT || 5000));
+/**
+ * Initialize Services
+ */
+function initializeServices() {
+  console.info('Initializing Application Services...');
 
-app.use(express.static(__dirname + '/client'));
+  var routes = require(__dirname + '/server/routes');
 
-app.get('/connect', function(request, respose) {
-  org.authenticate({
-    username      : process.env.SF_API_USER,
-    password      : process.env.SF_API_PASS
-  })
-  .then(function (resource) {
-    respose.json(resource);
-  })
-  .catch(function (resource) {
-    respose.json(resource);
+  routes(apiRouter);
+}
+
+/**
+ * Inject Application Middleware
+ */
+function injectMiddleware() {
+  console.info('Ijecting Application Middleware...');
+
+  app
+  .use(compression())
+  .use('/api', apiRouter)
+  .use(express.static(__dirname + '/client'));
+
+}
+
+/**
+ * Start the Application Server
+ */
+function startServer() {
+  var port = process.env.PORT || 5000;
+
+  console.info('Starting Application Server...');
+  app
+  .set('port', port)
+  .listen(port, function() {
+    console.info(`-- Listening on port: ${port}`);
   });
-});
+}
 
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
-});
+/**
+ * Bootstrap the Application
+ */
+function bootstrap() {
+  console.info('Bootstrapping Application...')
+  try {
+    initializeServices();
+    injectMiddleware();
+    startServer();
+    console.info('Application is Ready!');
+  } catch (e) {
+    console.error('Bootstrap process failed!', e.message);
+  }
+}
+
+bootstrap();

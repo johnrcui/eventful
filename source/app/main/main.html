@@ -1,34 +1,71 @@
-<div layout="vertical" layout-fill>
+<div layout="column" layout-fill>
 
   <md-content>
-    <header>
-      <acme-navbar creation-date="main.creationDate"></acme-navbar>
+    <header layout-fill>
+      <evfl-navbar creation-date="main.creationDate"></evfl-navbar>
+      <md-progress-linear md-mode="indeterminate" ng-if="main.loading"></md-progress-linear>
     </header>
 
-    <section class="jumbotron">
-      <h1>'Allo, 'Allo!</h1>
-      <p class="lead">
-        <img src="assets/images/yeoman.png" alt="I'm Yeoman"><br>
-        Always a pleasure scaffolding your apps.
-      </p>
-      <md-button class="md-raised animated infinite" ng-class="main.classAnimation" ng-click="main.showToastr()">Splendid Toastr</md-button>
-      <p>
-        With ♥ thanks to the contributions of<acme-malarkey extra-values="['Yeoman', 'Gulp', 'Angular']"></acme-malarkey>
-      </p>
-    </section>
-
-    <div class="techs" layout-align="center">
-      <md-card ng-repeat="awesomeThing in main.awesomeThings | orderBy:'rank'">
-        <md-card-content>
-          <img class="pull-right" ng-src="assets/images/{{ awesomeThing.logo }}" alt="{{ awesomeThing.title }}">
-          <h3 class="md-title">{{ awesomeThing.title }}</h3>
-          <p>{{ awesomeThing.description }}</p>
-        </md-card-content>
-        <div class="md-action-buttons">
-          <md-button ng-href="{{ awesomeThing.url }}">Website</md-button>
-        </div>
+    <div class="event-cards" layout="row" layout-wrap layout-align="space-around" ng-if="!main.inDetail">
+      <md-card ng-repeat="event in main.events" flex-xs="100" flex-gt-xs="49">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{ event.name }}</span>
+            <span class="md-subhead">{{ event.description }}</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised md-primary" ng-click="main.gotoDetail(event.resourceId)">RSVP</md-button>
+        </md-card-actions>
       </md-card>
     </div>
   </md-content>
 
+  <div class="event-detail" ng-if="main.inDetail">
+      <md-card flex-xs="100" flex-gt-xs="49">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{ main.selectedEvent.name }}</span>
+            <span class="md-subhead">{{ main.selectedEvent.description }}</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+          <div ng-repeat="session in main.selectedEvent.sessions">
+            <md-checkbox ng-model="session.attend" ng-disable="session.status == 'Closed'">
+            {{ session.name }}
+            <span ng-if="session.status == 'Closed'">
+              (Closed)
+            </span>
+            <span ng-iff="session.status != 'Closed'">
+              ({{session.registrationLimit}} of {{session.availableSeats}} available)
+            </span>
+            </md-checkbox>
+          </div>
+          <md-input-container flex>
+            <label>First Name</label>
+            <input ng-model="main.attendee.firstName" type="text">
+          </md-input-container>
+          <md-input-container flex>
+            <label>Last Name</label>
+            <input ng-model="main.attendee.lastName" type="text">
+          </md-input-container>
+          <md-input-container flex>
+            <label>Email</label>
+            <input ng-model="main.attendee.email" type="email">
+          </md-input-container>
+          <md-input-container flex>
+            <label>Phone</label>
+            <input ng-model="main.attendee.phone" type="tel">
+          </md-input-container>
+          <md-input-container flex>
+            <label>Company</label>
+            <input ng-model="main.attendee.company" type="text">
+          </md-input-container>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised md-primary" ng-click="main.attend()">Attend</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </div>
 </div>
